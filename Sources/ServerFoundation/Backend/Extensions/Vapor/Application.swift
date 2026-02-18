@@ -9,6 +9,37 @@ import Vapor
 
 extension Application {
     
+    /// Exposes OpenAPI documentation routes in the application.
+    ///
+    /// This method creates two HTTP GET endpoints for serving OpenAPI documentation:
+    ///
+    /// - `/api/{openapiFile}`: Serves the raw OpenAPI specification file (e.g., YAML or JSON) from the specified bundle.
+    ///   - If the file is not found in the bundle or does not exist on disk, responds with a `404 Not Found` and an error message.
+    ///   - If the file exists, streams the file with the appropriate media type.
+    ///   - If streaming fails, responds with a `500 Internal Server Error` and logs the error.
+    ///
+    /// - `/api/docs`: Serves a simple HTML page rendering the API documentation using Swagger UI, configured to load the OpenAPI specification from `/api/{openapiFile}`.
+    ///
+    /// - Parameters:
+    ///   - openapiFile: The name of the OpenAPI specification file (without extension) to serve. Defaults to `"openapi"`.
+    ///   - openapiExtension: The file extension (e.g., `"yaml"` or `"json"`) of the OpenAPI specification. Defaults to `"yaml"`.
+    ///   - bundle: The app bundle containing the OpenAPI specification file.
+    ///
+    /// - Important:
+    ///   Ensure the OpenAPI specification file is included in your target’s
+    ///   resources in `Package.swift`. Otherwise, it will not be bundled
+    ///   with the executable and cannot be loaded at runtime.
+    ///   It might be necessary to clean the build folder after adding the resource.
+    ///
+    ///   ### Example:
+    ///   ```swift
+    ///   .target(
+    ///       name: "YourTarget",
+    ///       resources: [
+    ///           .copy("openapi.yaml")
+    ///       ]
+    ///   )
+    ///   ```
     public func exposeDocumentation(file openapiFile: String = "openapi", extension openapiExtension: String = "yaml", in bundle: Bundle) {
         get("api", "\(openapiFile)") { req async throws -> Response in
             guard let url = bundle.url(forResource: openapiFile, withExtension: openapiExtension) else {
