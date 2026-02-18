@@ -29,7 +29,8 @@ extension Application {
     ///   Ensure the OpenAPI specification file is included in your target’s
     ///   resources in `Package.swift`. Otherwise, it will not be bundled
     ///   with the executable and cannot be loaded at runtime.
-    ///   It might be necessary to clean the build folder after adding the resource.
+    ///
+    ///   *It might be necessary to clean the build folder after adding the resource.*
     ///
     ///   ### Example:
     ///   ```swift
