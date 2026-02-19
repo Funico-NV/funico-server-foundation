@@ -22,7 +22,7 @@ let package = Package(
             name: "ServerFoundation",
             dependencies: [
                 .product(name: "Vapor", package: "vapor")
-            ],
+            ]
         ),
         .testTarget(
             name: "ServerFoundationTests",
