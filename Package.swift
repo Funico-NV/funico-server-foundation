@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "funico-server-foundation",
     platforms: [
-        .macOS(.v10_15),
+        .macOS(.v13),
         .iOS(.v13),
         .tvOS(.v13),
         .watchOS(.v6)
@@ -15,7 +15,7 @@ let package = Package(
         .library(name: "ServerFoundation", targets: ["ServerFoundation"])
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.91.1")
+        .package(url: "https://github.com/vapor/vapor.git", from: Version(4,0,0))
     ],
     targets: [
         .target(
